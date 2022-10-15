@@ -43,12 +43,14 @@ def submit(t_code, rlz_file=''):
                 },
             timeout=300
         )
-    except requests.exceptions.Timeout as e: 
+    except Exception as e:
         print(e)
         return
 
-    print(r.json()['stderr'].replace('__test',rlz_file[:-3]))
-    print(r.json()['stdout'].replace('__test',rlz_file[:-3]))
+    if len(r.json()['stderr']) > 1:
+        print(r.json()['stderr'].replace('__test',rlz_file[:-3]))
+    if len(r.json()['stdout']) > 1:
+        print(r.json()['stdout'].replace('__test',rlz_file[:-3]))
 
 if __name__ == '__main__':
     submit(
