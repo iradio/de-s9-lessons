@@ -65,5 +65,5 @@ def submit(test_name, rlz_file=''):
         
 
 if __name__ == '__main__':
-    submit('check_schema_cdm')
+    submit('de09050201_check_schema_cdm')
 
