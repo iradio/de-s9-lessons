@@ -62,8 +62,6 @@ def submit(test_name, rlz_file=''):
             print(f"\n{TerminalColors.FAIL}{r.json()['response']['payload']['message']}{TerminalColors.ENDC}\n")
     else:
         print(f'Что-то пошло не так, сервер вернул ошибку {r.status_code}\n{test_name}')
-        
 
 if __name__ == '__main__':
-    submit('de09050201_check_schema_cdm')
-
+    submit('de09050204_check_user_product_counters')
