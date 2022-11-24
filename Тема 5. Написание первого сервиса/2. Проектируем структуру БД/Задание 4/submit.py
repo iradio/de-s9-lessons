@@ -1,7 +1,6 @@
 import os
 import sys
 import importlib
-import json
 
 import requests
 
@@ -34,13 +33,6 @@ def submit(test_name, rlz_file=''):
     pg_settings = u_settings.pg_settings
 
     try:
-        r = requests.get(
-            f'http://{TESTS_HOST_2}/health'
-        )
-        if r.status_code != 200:
-            print(f'Что-то пошло не так, сервер вернул ошибку {r.status_code}')
-            return
-
         r = requests.post(
             f'http://{TESTS_HOST_2}/{test_name}',
             json={
