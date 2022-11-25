@@ -56,4 +56,4 @@ def submit(test_name, rlz_file=''):
         print(f'Что-то пошло не так, сервер вернул ошибку {r.status_code}\n{test_name}')
 
 if __name__ == '__main__':
-    submit('de09050212_check_h_users')
+    submit('de09050212_check_l_product_category')
