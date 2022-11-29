@@ -1,28 +1,23 @@
+import importlib
 import os
 import sys
-import importlib
 
 import requests
 
+
 class TerminalColors:
-        HEADER = '\033[95m'
-        OKBLUE = '\033[94m'
-        OKCYAN = '\033[96m'
-        OKGREEN = '\033[92m'
-        WARNING = '\033[93m'
-        FAIL = '\033[91m'
-        ENDC = '\033[0m'
-        BOLD = '\033[1m'
-        UNDERLINE = '\033[4m'
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
-def submit(test_name, rlz_file=''):
-    user_code = ''
-    if rlz_file:
-        full_lesson_path = os.path.dirname(os.path.abspath(__file__))
-        user_file = f'{full_lesson_path}/{rlz_file}'
 
-        with open(user_file, 'r') as u_file:
-            user_code = u_file.read()
+def submit(test_name):
 
     settings_path = os.path.dirname(os.path.abspath(__file__)).split('Тема')[0]
 
@@ -32,13 +27,15 @@ def submit(test_name, rlz_file=''):
     student = u_settings.student
     pg_settings = u_settings.pg_settings
 
+    print(TESTS_HOST_2)
+
     try:
         r = requests.post(
-            f'http://{TESTS_HOST_2}/{test_name}',
+            f'{TESTS_HOST_2}/{test_name}',
             json={
                 "student": student,
                 "pg_settings": pg_settings,
-                },
+            },
             timeout=300
         )
 
@@ -46,16 +43,19 @@ def submit(test_name, rlz_file=''):
         print(e)
         return
 
-    if r.status_code==200:
+    if r.status_code == 200:
         if 'result_key' in r.json()['response']['payload']:
-            print(f"\n{TerminalColors.OKGREEN}{r.json()['response']['payload']['message']}{TerminalColors.ENDC}\n")
-            print(f"Ключ: {TerminalColors.HEADER}{r.json()['response']['payload']['result_key']}{TerminalColors.ENDC}\n")
+            print(
+                f"\n{TerminalColors.OKGREEN}{r.json()['response']['payload']['message']}{TerminalColors.ENDC}\n")
+            print(
+                f"Ключ: {TerminalColors.HEADER}{r.json()['response']['payload']['result_key']}{TerminalColors.ENDC}\n")
         else:
-            print(f"\n{TerminalColors.FAIL}{r.json()['response']['payload']['message']}{TerminalColors.ENDC}\n")
+            print(
+                f"\n{TerminalColors.FAIL}{r.json()['response']['payload']['message']}{TerminalColors.ENDC}\n")
     else:
-        print(f'Что-то пошло не так, сервер вернул ошибку {r.status_code}\n{test_name}')
-        
+        print(
+            f'Что-то пошло не так, сервер вернул ошибку {r.status_code}\n{test_name}')
+
 
 if __name__ == '__main__':
     submit('de09050201_check_schema_cdm')
-
