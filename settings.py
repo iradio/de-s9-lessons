@@ -9,3 +9,8 @@ pg_settings = {
     'username': '*',  # имя_пользователя_для_подключения
     'password': '*'  # пароль_для_подключения
 }
+
+# укажите полный путь до папки с sprint-9-sample-service
+# например '/home/user/sp9/sprint-9-sample-service' - для linux или WSL
+# 'C:/Users/username/s9/sprint-9-sample-service' - для Windows, испольуйте в пути / вместо \ иначе получите ошибку
+path_s9_srv = '/home/'
