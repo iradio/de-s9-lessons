@@ -18,7 +18,7 @@ class TerminalColors:
 
 
 def submit(test_name):
-    
+
     settings_path = os.path.dirname(os.path.abspath(__file__)).split('Тема')[0]
     sys.path.append(settings_path)
     u_settings = importlib.import_module('settings')
@@ -33,7 +33,7 @@ def submit(test_name):
         with open(user_file, 'r', encoding="utf8") as u_file:
             user_code = u_file.read()
     except FileNotFoundError:
-        print(f'{TerminalColors.WARNING}Не найден файл `{user_file}{TerminalColors.ENDC}`\n\nВыполните условие задачи.\nПроверьте правильность пути переменной path_s9_srv в {settings_path}settings.py')
+        print(f'{TerminalColors.WARNING}Не найден файл `{user_file}{TerminalColors.ENDC}`\n\nВыполните условие задачи.\nПроверьте правильность пути переменной path_s9_srv в {settings_path}settings.py')  # noqa
         sys.exit()
 
     TESTS_HOST_2 = u_settings.TESTS_HOST_2
