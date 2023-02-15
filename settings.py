@@ -1,4 +1,4 @@
-TESTS_HOST = '62.84.117.31'
+TESTS_HOST = '51.250.8.141'
 TESTS_HOST_2 = 'https://postgres-check-service.sprint9.tgcloudenv.ru'
 
 student = '*',  # ваш_логин
