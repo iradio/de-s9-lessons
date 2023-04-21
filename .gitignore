@@ -1,3 +1,4 @@
+certs/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -129,3 +130,7 @@ dmypy.json
 .pyre/
 
 .vscode
+.metadata
+.conda
+.project
+General

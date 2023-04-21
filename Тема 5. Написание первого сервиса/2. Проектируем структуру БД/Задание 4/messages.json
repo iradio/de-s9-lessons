@@ -1,0 +1,45 @@
+{"object_id": 1467203, "object_type": "order", "sent_dttm": "2023-04-21 03:10:17", "payload": 
+    {"restaurant": {"id": "ebfa4c9b8dadfc1da37ab58d"}, 
+    "date": "2023-04-14 03:28:05", 
+    "user": {"id": "626a81ce9a8cd1920641e2b6"}, 
+    "order_items": [
+        {   "id": "09d643efb06f112548c2514e", 
+            "name": "\u041c\u0430\u043d\u0442\u044b \u0441 \u0431\u0430\u0440\u0430\u043d\u0438\u043d\u043e\u0439 3\u0448\u0442", 
+            "price": 250, 
+            "quantity": 2}, 
+        {"id": "b92d4d66bc844b7fd7ade634", "name": "\u041f\u043b\u043e\u0432 \u0447\u0430\u0439\u0445\u0430\u043d\u0441\u043a\u0438\u0439", "price": 420, "quantity": 2}, 
+        {"id": "bfdf489791e9bc1eb3eefbf5", "name": "\u041b\u0430\u0433\u043c\u0430\u043d", "price": 350, "quantity": 5}, 
+        {"id": "8d5c4d1598e06f880986abe4", "name": "\u0428\u0443\u0440\u043f\u0430 \u0438\u0437 \u0431\u0430\u0440\u0430\u043d\u0438\u043d\u044b", "price": 350, "quantity": 4}
+    ],
+    "bonus_payment": 0, 
+    "cost": 4490, 
+    "payment": 4490, 
+    "bonus_grant": 0, 
+    "statuses": [
+        {"status": "CANCELLED", "dttm": "2023-04-14 03:28:05"}, 
+        {"status": "OPEN", "dttm": "2023-04-14 02:54:35"}
+    ], 
+    "final_status": "CANCELLED", 
+    "update_ts": "2023-04-14 03:28:05"}}
+{"object_id": 1467204, "object_type": "order", "sent_dttm": "2023-04-21 03:10:17", "payload": {
+    "restaurant": {"id": "626a81cfefa404208fe9abae"}, 
+    "date": "2023-04-14 03:28:16", 
+    "user": {"id": "626a81ce9a8cd1920641e268"}, 
+    "order_items": [
+        {"id": "6276e8cd0cf48b4cded0086e", "name": "\u0420\u041e\u041b\u041b \u0421 \u0412\u0415\u0422\u0427\u0418\u041d\u041e\u0419 \u0418 \u041e\u041c\u041b\u0415\u0422\u041e\u041c", "price": 120, "quantity": 4}, 
+        {"id": "6276e8cd0cf48b4cded00876", "name": "\u041c\u0418\u041d\u0418 \u041f\u0418\u0420\u041e\u0413 \u041a\u0418\u0428 \u0421 \u041a\u0423\u0420\u0418\u0426\u0415\u0419", "price": 120, "quantity": 6}, 
+        {"id": "6276e8cd0cf48b4cded0087f", "name": "\u0424\u0418\u0420\u041c\u0415\u041d\u041d\u042b\u0419 \u0421\u042d\u041d\u0414\u0412\u0418\u0427 \u0421 \u0412\u0415\u0422\u0427\u0418\u041d\u041e\u0419 \u0418 \u041a\u0423\u0420\u0418\u0426\u0415\u0419", "price": 180, "quantity": 8}
+    ], 
+    "bonus_payment": 0, 
+    "cost": 2640, 
+    "payment": 2640, 
+    "bonus_grant": 0, 
+    "statuses": [
+        {"status": "CLOSED", "dttm": "2023-04-14 03:28:16"}, 
+        {"status": "DELIVERING", "dttm": "2023-04-14 02:28:30"}, 
+        {"status": "COOKING", "dttm": "2023-04-14 02:21:36"}, 
+        {"status": "OPEN", "dttm": "2023-04-14 01:57:55"}
+        ], 
+    "final_status": "CLOSED", 
+    "update_ts": "2023-04-14 03:28:16"}}
+{"object_id": 1467205, "object_type": "order", "sent_dttm": "2023-04-21 03:10:17", "payload": {"restaurant": {"id": "ef8c42c19b7518a9aebec106"}, "date": "2023-04-14 03:28:26", "user": {"id": "626a81ce9a8cd1920641e298"}, "order_items": [{"id": "ca8f449eadf0832b800fa62b", "name": "\u041e\u0432\u043e\u0449\u043d\u043e\u0439 \u0441\u0443\u043f", "price": 349, "quantity": 2}], "bonus_payment": 0, "cost": 698, "payment": 698, "bonus_grant": 0, "statuses": [{"status": "CLOSED", "dttm": "2023-04-14 03:28:26"}, {"status": "DELIVERING", "dttm": "2023-04-14 02:34:07"}, {"status": "COOKING", "dttm": "2023-04-14 01:36:50"}, {"status": "OPEN", "dttm": "2023-04-14 00:40:12"}], "final_status": "CLOSED", "update_ts": "2023-04-14 03:28:26"}}

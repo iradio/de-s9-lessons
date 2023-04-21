@@ -1,0 +1,49 @@
+# Default values for app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  # Link to your container registry. You will launch it in Yandex Cloud.
+  repository: cr.yandex/crp61lj4oj01botu0ub0/stg_service
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "v2023-04-21-r2"
+
+containerPort: 5000
+
+config:
+  KAFKA_HOST: "rc1b-ritu3rhvp59visbp.mdb.yandexcloud.net"
+  KAFKA_PORT: "9091"
+  KAFKA_CONSUMER_USERNAME: "producer_consumer"
+  KAFKA_CONSUMER_PASSWORD: "de_password"
+  KAFKA_CONSUMER_GROUP: "users"
+  KAFKA_SOURCE_TOPIC: "stg-service-orders"
+  KAFKA_STG_SERVICE_ORDERS_TOPIC: "order-service_orders"
+  PG_WAREHOUSE_HOST: "rc1b-pkh0xycy94xo8dd1.mdb.yandexcloud.net"
+  PG_WAREHOUSE_PORT: "6432"
+  PG_WAREHOUSE_DBNAME: "sprint9dwh"
+  PG_WAREHOUSE_USER: "de_user"
+  PG_WAREHOUSE_PASSWORD: "de_password"
+  REDIS_HOST: "c-c9qs6ld6nntbvr2u5o6e.rw.mdb.yandexcloud.net"
+  REDIS_PORT: "6380"
+  REDIS_PASSWORD: "de_password"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {}
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
