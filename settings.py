@@ -13,4 +13,4 @@ pg_settings = {
 # укажите полный путь до папки с sprint-9-sample-service
 # например '/home/user/sp9/sprint-9-sample-service' - для linux или WSL
 # 'C:/Users/username/s9/sprint-9-sample-service' - для Windows, используйте в пути / вместо \ иначе получите ошибку
-path_s9_srv = '/home/tim/dev/YndDE/s9-lessons/sprint-9-sample-service'
+path_s9_srv = '/home/tim/dev/YndDE/s9-lessons/service_stg/service_stg'

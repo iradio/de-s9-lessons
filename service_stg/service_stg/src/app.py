@@ -4,7 +4,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask
 
 from app_config import AppConfig
-from sample_app.sample_job import SampleMessageProcessor
+from stg_loader.stg_message_processor_job import StgMessageProcessor
 
 app = Flask(__name__)
 
@@ -26,7 +26,13 @@ if __name__ == '__main__':
 
     # Инициализируем процессор сообщений.
     # Пока он пустой. Нужен для того, чтобы потом в нем писать логику обработки сообщений из Kafka.
-    proc = SampleMessageProcessor(app.logger)
+    proc = StgMessageProcessor(
+                config.kafka_consumer(),
+                config.kafka_producer(),
+                config.redis_client(),
+                config.pg_warehouse_db(),
+                100,
+                app.logger)
 
     # Запускаем процессор в бэкграунде.
     # BackgroundScheduler будет по расписанию вызывать функцию run нашего обработчика(SampleMessageProcessor).

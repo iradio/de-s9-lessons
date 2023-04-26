@@ -17,6 +17,10 @@ image:
 ```shell
 helm upgrade --install --atomic test app
 ```
+Успешно запускается командой без флага `--atomic`. С ним - падает.
+```bash
+helm upgrade stg-service app -n c08-timur-alejnikov
+```
 
 ## Настройка реджистри Yandex Cloud
 
@@ -29,3 +33,12 @@ helm upgrade --install --atomic test app
 Назначте этой группе роль `container-registry.images.puller`:
 
 <img src="img/regisry_role.png" alt="Contact Point" width="512"/>
+
+## Сборка stg-service
+
+```bash
+docker build . -t cr.yandex/crp61lj4oj01botu0ub0/stg_service:v2023-04-24-r1
+docker push cr.yandex/crp61lj4oj01botu0ub0/stg_service:v2023-04-24-r1
+# вносети правку в /service_stg/app/values.yaml в tag: "v2023-04-24-r1"
+helm upgrade stg-service app -n c08-timur-alejnikov
+```

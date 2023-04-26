@@ -134,6 +134,16 @@ curl -X POST https://order-gen-service.sprint9.tgcloudenv.ru/register_kafka \
 }
 EOF
 ```
+Удаление топика
+```bash
+curl -X POST https://order-gen-service.sprint9.tgcloudenv.ru/delete_kafka \
+-H 'Content-Type: application/json; charset=utf-8' \
+--data-binary @- << EOF
+{
+    "student": "tim.aleinikov"
+}
+EOF
+```
 
 Снова переведите kcat в режим консьюмера:
 ``` bash
@@ -151,6 +161,32 @@ docker run \
     -X sasl.password=de_password \
     -X ssl.ca.location=/data/CA.pem \
     -t order-service_orders \
+    -C \
+    -o beginning
+```
+
+``` bash
+kafkacat \
+    -b rc1b-ritu3rhvp59visbp.mdb.yandexcloud.net:9091 \
+    -X security.protocol=SASL_SSL \
+    -X sasl.mechanisms=SCRAM-SHA-512 \
+    -X sasl.username=producer_consumer \
+    -X sasl.password=de_password \
+    -X ssl.ca.location=./certs/CA.pem \
+    -t order-service_orders \
+    -C \
+    -o beginning
+```
+
+``` bash
+kafkacat \
+    -b rc1b-ritu3rhvp59visbp.mdb.yandexcloud.net:9091 \
+    -X security.protocol=SASL_SSL \
+    -X sasl.mechanisms=SCRAM-SHA-512 \
+    -X sasl.username=producer_consumer \
+    -X sasl.password=de_password \
+    -X ssl.ca.location=./certs/CA.pem \
+    -t stg-service-orders \
     -C \
     -o beginning
 ```
