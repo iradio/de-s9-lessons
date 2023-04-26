@@ -1,107 +1,73 @@
-from typing import List, Dict
 from datetime import datetime
 from logging import Logger
-from lib.kafka_connect import KafkaConsumer 
-from lib.kafka_connect import KafkaProducer
+
+from lib.kafka_connect.kafka_connectors import KafkaConsumer, KafkaProducer
 from lib.redis import RedisClient
-# from repository.stg_repository import StgRepository
-from .repository.stg_repository import StgRepository
+from stg_loader.repository.stg_repository import StgRepository
+
 
 class StgMessageProcessor:
     def __init__(self,
-                 consumer : KafkaConsumer,
-                 producer: KafkaProducer,
-                 redis: RedisClient,
-                 stg_repository: StgRepository,
-                 batch_size: int, 
-                 logger: Logger) -> None:
-        self._consumer = consumer
-        self._producer = producer
-        self._redis = redis
-        self._stg_repository = stg_repository
-        self._batch_size = 100
+                 KafkaConsumer: KafkaConsumer,
+                 KafkaProducer: KafkaProducer,
+                 RedisClient: RedisClient,
+                 StgRepository: StgRepository,
+                 logger: Logger,
+                 batch_size: int) -> None:
+        self._consumer = KafkaConsumer
+        self._producer = KafkaProducer
+        self._redis = RedisClient
+        self._stg_repository = StgRepository
         self._logger = logger
-        
-        
+        self._batch_size = batch_size
+
     # функция, которая будет вызываться по расписанию.
     def run(self) -> None:
         # Пишем в лог, что джоб был запущен.
         self._logger.info(f"{datetime.utcnow()}: START")
 
+        # Имитация работы. Здесь будет реализована обработка сообщений.
         for _ in range(self._batch_size):
-            msg = self._consumer.consume()
-            if not msg:
+            input_msg = self._consumer.consume()
+            if input_msg is None:
                 break
 
-            self._logger.info(f"{datetime.utcnow()}: Message received")
+            if input_msg.get('object_id'):
+                self._stg_repository.order_events_insert(
+                    input_msg['object_id'],
+                    input_msg['object_type'],
+                    input_msg['sent_dttm'],
+                    input_msg['payload'],
+                )
 
-            order = msg['payload']
-            self._stg_repository.order_events_insert(
-                msg["object_id"],
-                msg["object_type"],
-                msg["sent_dttm"],
-                json.dumps(order))
+                user_id = input_msg['payload']['user']['id']
+                restaurant_id = input_msg['payload']['restaurant']['id']
 
-            user_id = order["user"]["id"]
-            user = self._redis.get(user_id)
-            user_name = user["name"]
-            user_login = user["login"]
+                user_data = self._redis.get(user_id)
+                restaurant_data = self._redis.get(restaurant_id)
+                
+                exit_msg = dict(
+                    object_id=input_msg['object_id'],
+                    object_type=input_msg['object_type'],
+                    payload={
+                        "id": input_msg['object_id'],
+                        "date": input_msg['payload']['date'],
+                        "cost": input_msg['payload']['cost'],
+                        "payment": input_msg['payload']['payment'],
+                        "status": input_msg['payload']['final_status'],
+                        "restaurant": {
+                            "id": restaurant_data['_id'],
+                            "name": restaurant_data['name']
+                        },
+                        "user": {
+                            "id": user_data['_id'],
+                            "name": user_data['name']
+                        },
+                        "products": restaurant_data['menu']
+                    }
+                )
 
-            restaurant_id = order['restaurant']['id']
-            restaurant = self._redis.get(restaurant_id)
-            restaurant_name = restaurant["name"]
-
-            dst_msg = {
-                "object_id": msg["object_id"],
-                "object_type": "order",
-                "payload": {
-                    "id": msg["object_id"],
-                    "date": order["date"],
-                    "cost": order["cost"],
-                    "payment": order["payment"],
-                    "status": order["final_status"],
-                    "restaurant": self._format_restaurant(restaurant_id, restaurant_name),
-                    "user": self._format_user(user_id, user_name, user_login),
-                    "products": self._format_items(order["order_items"], restaurant)
-                }
-            }
-
-            self._producer.produce(dst_msg)
-            self._logger.info(f"{datetime.utcnow()}. Message Sent")
-
-
-        # Пишем в лог, что джоб успешно завершен.
-        self._logger.info(f"{datetime.utcnow()}: FINISH")
+                self._producer.produce(exit_msg)
 
         # Пишем в лог, что джоб успешно завершен.
         self._logger.info(f"{datetime.utcnow()}: FINISH")
-
-    def _format_restaurant(self, id, name) -> Dict[str, str]:
-        return {
-            "id": id,
-            "name": name
-        }
-
-    def _format_user(self, id, name, login) -> Dict[str, str]:
-        return {
-            "id": id,
-            "name": name,
-            "login": login
-        }
-
-    def _format_items(self, order_items, restaurant) -> List[Dict[str, str]]:
-        items = []
-
-        menu = restaurant["menu"]
-        for it in order_items:
-            menu_item = next(x for x in menu if x["_id"] == it["id"])
-            dst_it = {
-                "id": it["id"],
-                "price": it["price"],
-                "quantity": it["quantity"],
-                "name": menu_item["name"],
-                "category": menu_item["category"]
-            }
-            items.append(dst_it)
-
-        return items

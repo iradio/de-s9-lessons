@@ -1,5 +1,5 @@
 from datetime import datetime
-
+import json
 from lib.pg import PgConnect
 
 class StgRepository:
@@ -17,15 +17,15 @@ class StgRepository:
             with conn.cursor() as cur:
                 cur.execute(
                     """
-                    INSERT INTO stg.order_events (object_id, object_type, sent_dttm, payload)
-                    VALUES (%(object_id)s, %(object_type)s, %(sent_dttm)s, %(payload)s)
-                    ON CONFLICT (object_id) DO UPDATE
-                    SET object_type = %(object_type)s, sent_dttm = %(sent_dttm)s, payload = %(payload)s
+                        INSERT INTO stg.order_events (object_id, object_type, sent_dttm, payload)
+                        VALUES (%(object_id)s, %(object_type)s, %(sent_dttm)s, %(payload)s)
+                        ON CONFLICT (object_id) DO UPDATE SET
+                        (object_type, sent_dttm, payload) = (EXCLUDED.object_type, EXCLUDED.sent_dttm, EXCLUDED.payload);
                     """,
                     {
                         'object_id': object_id,
                         'object_type': object_type,
                         'sent_dttm': sent_dttm,
-                        'payload': payload
+                        'payload': json.dumps(payload)
                     }
                 )
